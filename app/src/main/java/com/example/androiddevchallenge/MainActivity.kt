@@ -18,6 +18,7 @@ package com.example.androiddevchallenge
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
@@ -25,11 +26,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -38,27 +41,45 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.androiddevchallenge.core.local.AppDatabase
+import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.item.DogItem
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.utils.loadPicture
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+//        var data = MutableLiveData<List<PuppyEntity>>()
+        var data:MutableState<List<PuppyEntity>> = mutableStateOf(listOf())
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                MyApp()
+                MyApp(data)
             }
         }
+        GlobalScope.launch(Dispatchers.Main) {
+            AppDatabase.getInstance(applicationContext).puppyDao.getPuppys().apply {
+                Log.d("MainActivity", "onCreate:  ${this.size} : ${this}")
+                data.value = this
+            }
+        }
+
     }
 }
 
 // Start building your app here!
 @Composable
-fun MyApp() {
+fun MyApp(list:State<List<PuppyEntity>>) {
     Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -67,18 +88,24 @@ fun MyApp() {
         ) {
             Text(text = "Ready... Set... GO!")
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                for (i in 1..3) {
-                    item {
-                        DogItem(model = "SDsd", navigateTo = {
+            val data: List<PuppyEntity> = list.value
+            if(data.size>0){
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    itemsIndexed(
+                        items = data
+                    ){index, item ->
+                        DogItem(model = item, navigateTo = {
 
                         })
                     }
                 }
+            }else{
+                Text(text = "No Data Fetch From Db", modifier = Modifier.fillMaxSize())
             }
+            
         }
     }
 }
@@ -87,7 +114,7 @@ fun MyApp() {
 @Composable
 fun LightPreview() {
     MyTheme {
-        MyApp()
+//        MyApp()
     }
 }
 
@@ -95,7 +122,7 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-        MyApp()
+//        MyApp()
     }
 }
 
@@ -110,11 +137,6 @@ fun PreviewLoadPicture() {
         loadPicture(url = FAKE_DOG_URL, defaultImage = DEFAULT_PLACEHOLDER_IMAGE)
     }
 }
-
-
-
-
-
 
 
 class FakeImageUrl : PreviewParameterProvider<String> {
