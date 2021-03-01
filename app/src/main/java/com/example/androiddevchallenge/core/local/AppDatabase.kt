@@ -1,8 +1,9 @@
 package com.example.androiddevchallenge.core.local
 
 import android.content.Context
-import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteOpenHelper
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.androiddevchallenge.core.local.repo.PuppyDao
 import com.example.androiddevchallenge.core.model.PuppyEntity
 

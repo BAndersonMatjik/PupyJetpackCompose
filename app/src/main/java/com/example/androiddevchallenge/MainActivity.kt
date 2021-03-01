@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 MyApp(data)
             }
         }
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(Dispatchers.IO) {
             AppDatabase.getInstance(applicationContext).puppyDao.getPuppys().apply {
                 Log.d("MainActivity", "onCreate:  ${this.size} : ${this}")
                 data.value = this

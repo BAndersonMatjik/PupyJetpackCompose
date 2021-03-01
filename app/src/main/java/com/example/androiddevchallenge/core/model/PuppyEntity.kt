@@ -7,8 +7,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tm_puppys")
 data class PuppyEntity(
-    @PrimaryKey(autoGenerate = false)
-    val id_puppy:Int? = 0 ,
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    val id_puppy:Int,
     val puppy_name:String = "",
     val puppy_detail:String= "",
     @Nullable
