@@ -33,49 +33,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.navigate
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.item.DogItem
 
-class HomeFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
-
-    private lateinit var viewModel: HomeViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                HomeView(list = viewModel.data)
-            }
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-}
 
 @Composable
-fun HomeView(list: State<List<PuppyEntity>>) {
+fun HomeView(nav:NavHostController,viewModel: HomeViewModel) {
+    fun navigate(id_puppy:String){
+        nav.navigate("detailView/$id_puppy")
+    }
     Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Ready... Set... GO!")
+            Text(text = "Dogs List" ,fontSize = 25.sp)
 
-            val data: List<PuppyEntity> = list.value
+            val data: List<PuppyEntity> = viewModel.data.value
             if (data.size> 0) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -87,6 +67,7 @@ fun HomeView(list: State<List<PuppyEntity>>) {
                         DogItem(
                             model = item,
                             navigateTo = {
+                                navigate(id_puppy = item.id_puppy.toString())
                             }
                         )
                     }
