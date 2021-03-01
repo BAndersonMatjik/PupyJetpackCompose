@@ -1,27 +1,21 @@
 /*
- *
  * Copyright 2021 The Android Open Source Project
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *  https://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-
-
 package com.example.androiddevchallenge
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +33,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.item.DogItem
 
@@ -51,13 +47,14 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return ComposeView(requireContext()).apply {
-           setContent {
-               HomeView(list = viewModel.data)
-           }
+            setContent {
+                HomeView(list = viewModel.data)
+            }
         }
     }
 
@@ -66,7 +63,6 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }
 
 @Composable
@@ -80,23 +76,24 @@ fun HomeView(list: State<List<PuppyEntity>>) {
             Text(text = "Ready... Set... GO!")
 
             val data: List<PuppyEntity> = list.value
-            if(data.size>0){
+            if (data.size> 0) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     itemsIndexed(
                         items = data
-                    ){index, item ->
-                        DogItem(model = item, navigateTo = {
-
-                        })
+                    ) { index, item ->
+                        DogItem(
+                            model = item,
+                            navigateTo = {
+                            }
+                        )
                     }
                 }
-            }else{
+            } else {
                 Text(text = "No Data Fetch From Db", modifier = Modifier.fillMaxSize())
             }
-
         }
     }
 }

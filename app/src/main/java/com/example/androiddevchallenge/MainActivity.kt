@@ -42,7 +42,6 @@ import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.item.DogItem
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.utils.loadPicture
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,11 +58,10 @@ class MainActivity : AppCompatActivity() {
         }
         GlobalScope.launch(Dispatchers.IO) {
             AppDatabase.getInstance(applicationContext).puppyDao.getPuppys().apply {
-                Log.d("MainActivity", "onCreate:  ${this.size} : ${this}")
+                Log.d("MainActivity", "onCreate:  ${this.size} : $this")
                 data.value = this
             }
         }
-
     }
 }
 
@@ -79,23 +77,24 @@ fun MyApp(list: State<List<PuppyEntity>>) {
             Text(text = "Ready... Set... GO!")
 
             val data: List<PuppyEntity> = list.value
-            if(data.size>0){
+            if (data.size> 0) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     itemsIndexed(
                         items = data
-                    ){index, item ->
-                        DogItem(model = item, navigateTo = {
-
-                        })
+                    ) { index, item ->
+                        DogItem(
+                            model = item,
+                            navigateTo = {
+                            }
+                        )
                     }
                 }
-            }else{
+            } else {
                 Text(text = "No Data Fetch From Db", modifier = Modifier.fillMaxSize())
             }
-            
         }
     }
 }
@@ -108,7 +107,7 @@ fun LightPreview() {
     }
 }
 
-//@Preview("Dark Theme", widthDp = 360, heightDp = 640)
+// @Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
@@ -127,7 +126,6 @@ fun PreviewLoadPicture() {
         loadPicture(url = FAKE_DOG_URL, defaultImage = DEFAULT_PLACEHOLDER_IMAGE)
     }
 }
-
 
 class FakeImageUrl : PreviewParameterProvider<String> {
     override val values =
