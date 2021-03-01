@@ -2,7 +2,14 @@ package com.example.androiddevchallenge.ui.item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,7 +18,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.DEFAULT_PLACEHOLDER_IMAGE
-import com.example.androiddevchallenge.FAKE_DOG_URL
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.utils.loadPicture
 
