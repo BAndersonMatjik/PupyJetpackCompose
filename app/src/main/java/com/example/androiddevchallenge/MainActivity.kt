@@ -16,55 +16,32 @@
 package com.example.androiddevchallenge
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import com.example.androiddevchallenge.core.local.AppDatabase
 import com.example.androiddevchallenge.core.model.PuppyEntity
-import com.example.androiddevchallenge.ui.item.DogItem
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.utils.loadPicture
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: HomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
 //        var data = MutableLiveData<List<PuppyEntity>>()
-        
+
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         setContent {
@@ -116,28 +93,27 @@ fun DetailPreview() {
     }
 }
 
-
 @Composable
 fun AppNavigator(viewModel: HomeViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "homeView") {
         composable("homeView") {
-            HomeView(navController,viewModel = viewModel)
+            HomeView(navController, viewModel = viewModel)
         }
-        composable("detailView/{id_puppy}", arguments = listOf(
-            navArgument("id_puppy") {
-                type = NavType.StringType
-            }
-        )) { backstack ->
+        composable(
+            "detailView/{id_puppy}",
+            arguments = listOf(
+                navArgument("id_puppy") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backstack ->
             backstack.arguments?.getString("id_puppy").let {
-                DetailView(viewModel = viewModel,id= it!!)
+                DetailView(viewModel = viewModel, id = it!!)
             }
         }
     }
 }
-
-
-
 
 const val DEFAULT_PLACEHOLDER_IMAGE = R.drawable.img_placeholder_loading
 const val FAKE_DOG_URL =

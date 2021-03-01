@@ -15,10 +15,6 @@
  */
 package com.example.androiddevchallenge
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,23 +24,18 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.item.DogItem
 
-
 @Composable
-fun HomeView(nav:NavHostController,viewModel: HomeViewModel) {
-    fun navigate(id_puppy:String){
+fun HomeView(nav: NavHostController, viewModel: HomeViewModel) {
+    fun navigate(id_puppy: String) {
         nav.navigate("detailView/$id_puppy")
     }
     Surface(color = MaterialTheme.colors.background) {
@@ -53,7 +44,7 @@ fun HomeView(nav:NavHostController,viewModel: HomeViewModel) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Dogs List" ,fontSize = 25.sp)
+            Text(text = "Dogs List", fontSize = 25.sp)
 
             val data: List<PuppyEntity> = viewModel.data.value
             if (data.size> 0) {

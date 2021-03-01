@@ -72,7 +72,5 @@ fun DetailView(viewModel: HomeViewModel, id: String) {
         )
         Text(text = "Dogs Height     ${data.puppy_height}", style = MaterialTheme.typography.body1)
         Text(text = "Dogs Weight     ${data.puppy_weight}", style = MaterialTheme.typography.body1)
-
-
     }
 }
