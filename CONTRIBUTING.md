@@ -1,4 +1,4 @@
-# How to Contribute [![Check](https://github.com/BAndersonMatjik/PupyJetpackCompose/actions/workflows/Check.yaml/badge.svg?branch=main)](https://github.com/BAndersonMatjik/PupyJetpackCompose/actions/workflows/Check.yaml)
+# How to Contribute 
 
 We'd love to accept your patches and contributions to this project. There are
 just a few small guidelines you need to follow.
