@@ -1,4 +1,4 @@
-# Template repository [![Check](https://github.com/BAndersonMatjik/PupyJetpackCompose/actions/workflows/Check.yaml/badge.svg?branch=main)](https://github.com/BAndersonMatjik/PupyJetpackCompose/actions/workflows/Check.yaml)
+# Puppy Jetpack [![Check](https://github.com/BAndersonMatjik/PupyJetpackCompose/actions/workflows/Check.yaml/badge.svg?branch=main)](https://github.com/BAndersonMatjik/PupyJetpackCompose/actions/workflows/Check.yaml)
 
 Template repository for the Jetpack Compose [#AndroidDevChallenge](https://developer.android.com/dev-challenge).
 
