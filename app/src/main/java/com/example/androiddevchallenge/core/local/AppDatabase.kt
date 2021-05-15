@@ -22,7 +22,7 @@ import androidx.room.RoomDatabase
 import com.example.androiddevchallenge.core.local.repo.PuppyDao
 import com.example.androiddevchallenge.core.model.PuppyEntity
 
-@Database(entities = [PuppyEntity::class], version = 1, exportSchema = true)
+@Database(entities = [PuppyEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
