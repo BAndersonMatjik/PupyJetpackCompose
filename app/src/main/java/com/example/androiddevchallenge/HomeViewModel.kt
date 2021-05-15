@@ -15,25 +15,20 @@
  */
 package com.example.androiddevchallenge
 
-import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androiddevchallenge.core.local.AppDatabase
 import com.example.androiddevchallenge.core.local.repo.PuppyDao
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
-
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(puppyDao: PuppyDao) : ViewModel(), CoroutineScope {

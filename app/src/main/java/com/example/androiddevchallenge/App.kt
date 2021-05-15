@@ -16,7 +16,6 @@
 package com.example.androiddevchallenge
 
 import android.app.Application
-import com.example.androiddevchallenge.core.local.AppDatabase
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
