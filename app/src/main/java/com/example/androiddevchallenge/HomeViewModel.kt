@@ -18,6 +18,8 @@ package com.example.androiddevchallenge
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androiddevchallenge.core.local.repo.PuppyDao
@@ -27,30 +29,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(puppyDao: PuppyDao) : ViewModel(), CoroutineScope {
+class HomeViewModel @Inject constructor(private val puppyDao: PuppyDao) : ViewModel() {
 
-    private val job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
-    var data: MutableState<List<PuppyEntity>> = mutableStateOf(listOf())
+    var data: MutableLiveData<List<PuppyEntity>> = MutableLiveData(listOf())
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            puppyDao.getPuppys().apply {
-                Log.d("HomeViewModel", "onCreate:  ${this.size} : $this")
-                data.value = this
+            puppyDao.getPuppys().let {
+                Log.d("HomeViewModel", "onCreate:  ${it.size} : $it")
+                withContext(Dispatchers.Main){
+                    data.value = it
+                }
             }
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
-    }
 }

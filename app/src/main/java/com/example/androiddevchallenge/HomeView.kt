@@ -24,20 +24,27 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.item.DogItem
 
 @Composable
-fun HomeView(nav: NavHostController, viewModel: HomeViewModel) {
-    fun navigate(id_puppy: String) {
-        nav.navigate("detailView/$id_puppy")
+fun HomeView(navigation:NavController,viewModel: HomeViewModel = hiltNavGraphViewModel()) {
+    fun navigate(puppy_id:String){
+        navigation.navigate("detailView/${puppy_id}")
     }
+
     Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -45,19 +52,19 @@ fun HomeView(nav: NavHostController, viewModel: HomeViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Dogs List", fontSize = 25.sp)
-            val data: List<PuppyEntity> = viewModel.data.value
-            if (data.size> 0) {
+            val data by viewModel.data.observeAsState()
+            if (data?.size!!> 0) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     itemsIndexed(
-                        items = data
+                        items = data!!
                     ) { index, item ->
                         DogItem(
                             model = item,
                             navigateTo = {
-                                navigate(id_puppy = item.id_puppy.toString())
+                                navigate(item.id_puppy.toString())
                             }
                         )
                     }
@@ -67,4 +74,10 @@ fun HomeView(nav: NavHostController, viewModel: HomeViewModel) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HomePreview(){
+//    HomeView()
 }

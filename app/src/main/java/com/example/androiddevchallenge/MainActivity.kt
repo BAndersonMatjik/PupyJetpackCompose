@@ -17,7 +17,9 @@ package com.example.androiddevchallenge
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,11 +30,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.theme.MyTheme
@@ -41,15 +43,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: HomeViewModel
+
+    val homeViewModel = viewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
-//        var data = MutableLiveData<List<PuppyEntity>>()
 
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         setContent {
             MyTheme {
-                AppNavigator(viewModel = viewModel)
+                AppNavigator()
             }
         }
     }
@@ -59,15 +60,15 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun LightPreview() {
     MyTheme {
-//        MyApp()
+        AppNavigator()
     }
 }
 
-// @Preview("Dark Theme", widthDp = 360, heightDp = 640)
+@Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-//        MyApp()
+        AppNavigator()
     }
 }
 
@@ -98,22 +99,26 @@ fun DetailPreview() {
 }
 
 @Composable
-fun AppNavigator(viewModel: HomeViewModel) {
+fun AppNavigator() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "homeView") {
-        composable("homeView") {
-            HomeView(navController, viewModel = viewModel)
-        }
-        composable(
-            "detailView/{id_puppy}",
-            arguments = listOf(
-                navArgument("id_puppy") {
-                    type = NavType.StringType
+
+    NavHost(navController = navController, startDestination = "home") {
+        navigation(startDestination = "homeView",route = "home"){
+            composable("homeView") {
+                HomeView(navController)
+            }
+            composable(
+                "detailView/{id_puppy}",
+                arguments = listOf(
+                    navArgument("id_puppy") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { backstack ->
+                backstack.arguments?.getString("id_puppy").let {
+                DetailView( id = it!!)
+                    Log.d("Detail", "AppNavigator: GO Detail")
                 }
-            )
-        ) { backstack ->
-            backstack.arguments?.getString("id_puppy").let {
-                DetailView(viewModel = viewModel, id = it!!)
             }
         }
     }

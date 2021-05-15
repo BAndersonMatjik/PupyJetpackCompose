@@ -15,10 +15,32 @@
  */
 package com.example.androiddevchallenge
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.androiddevchallenge.core.local.repo.PuppyDao
+import com.example.androiddevchallenge.core.model.PuppyEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class DetailViewModel : ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(private val puppyDao: PuppyDao) : ViewModel(){
 
-    init {
+    var data: MutableLiveData<PuppyEntity> = MutableLiveData<PuppyEntity>()
+
+    fun getPuppy(id:String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            puppyDao.getPuppys().let {
+                Log.d("HomeViewModel", "onCreate:  ${it.size} : $it")
+                withContext(Dispatchers.Main){
+                    data.value = it.filter { it.id_puppy == id.toInt() }.first()
+                }
+            }
+        }
     }
+
 }

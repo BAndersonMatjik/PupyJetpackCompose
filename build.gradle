@@ -21,6 +21,7 @@ buildscript {
     ext.hilt_version = '2.35.1'
     ext.room_version = "2.3.0"
     ext.accompanist_version = "0.9.1"
+    ext.compose_viewmodel_version =  "1.0.0-alpha04"
 
     repositories {
         google()

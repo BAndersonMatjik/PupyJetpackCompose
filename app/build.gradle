@@ -91,7 +91,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha10"
+//    implementation "androidx.navigation:navigation-compose:1.0.0-alpha10"
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
@@ -105,14 +105,17 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$compose_viewmodel_version"
+
+
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha10"
+//    implementation "androidx.navigation:navigation-compose:1.0.0-alpha10"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
 
     implementation "com.google.accompanist:accompanist-coil:$accompanist_version"

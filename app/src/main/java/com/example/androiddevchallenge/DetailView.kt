@@ -27,49 +27,59 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import com.example.androiddevchallenge.ui.utils.loadPicture
 
 @Composable
-fun DetailView(viewModel: HomeViewModel, id: String) {
+fun DetailView(id: String,viewModel: DetailViewModel = hiltNavGraphViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(6.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        val data = viewModel.data.value.filter { it.id_puppy == id.toInt() }.first()
-        loadPicture(url = data.puppy_image, defaultImage = DEFAULT_PLACEHOLDER_IMAGE).value?.let {
-            Image(
-                bitmap = it.asImageBitmap(),
-                contentDescription = "Dogs",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
+        val data by viewModel.data.observeAsState()
+        viewModel.getPuppy(id)
+        data?.puppy_image?.let { image ->
+            loadPicture(
+                url = image,
+                defaultImage = DEFAULT_PLACEHOLDER_IMAGE
+            ).value?.let {
+                Image(
+                    bitmap = it.asImageBitmap(),
+                    contentDescription = "Dogs",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                )
+            }
+            Text(
+                text = data?.puppy_name!!,
+                fontSize = 20.sp,
+                fontStyle = FontStyle.Normal,
+                style = MaterialTheme.typography.subtitle1
             )
+            Spacer(modifier = Modifier.padding(6.dp))
+            Text(text = "Detail ")
+            Text(text = data?.puppy_detail!!)
+            Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "Dogs Size       ${data?.puppy_size}", style = MaterialTheme.typography.body1)
+            Text(
+                text = "Dogs Life Span  ${data?.puppy_life_span}",
+                style = MaterialTheme.typography.body1
+            )
+            Text(text = "Dogs Height     ${data?.puppy_height}", style = MaterialTheme.typography.body1)
+            Text(text = "Dogs Weight     ${data?.puppy_weight}", style = MaterialTheme.typography.body1)
         }
-        Text(
-            text = data.puppy_name,
-            fontSize = 20.sp,
-            fontStyle = FontStyle.Normal,
-            style = MaterialTheme.typography.subtitle1
-        )
-        Spacer(modifier = Modifier.padding(6.dp))
-        Text(text = "Detail ")
-        Text(text = data.puppy_detail)
-        Spacer(modifier = Modifier.padding(5.dp))
-        Text(text = "Dogs Size       ${data.puppy_size}", style = MaterialTheme.typography.body1)
-        Text(
-            text = "Dogs Life Span  ${data.puppy_life_span}",
-            style = MaterialTheme.typography.body1
-        )
-        Text(text = "Dogs Height     ${data.puppy_height}", style = MaterialTheme.typography.body1)
-        Text(text = "Dogs Weight     ${data.puppy_weight}", style = MaterialTheme.typography.body1)
+
     }
 }
