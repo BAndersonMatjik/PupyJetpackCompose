@@ -16,22 +16,16 @@
 package com.example.androiddevchallenge
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androiddevchallenge.core.local.repo.PuppyDao
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val puppyDao: PuppyDao) : ViewModel() {
@@ -42,11 +36,10 @@ class HomeViewModel @Inject constructor(private val puppyDao: PuppyDao) : ViewMo
         viewModelScope.launch(Dispatchers.IO) {
             puppyDao.getPuppys().let {
                 Log.d("HomeViewModel", "onCreate:  ${it.size} : $it")
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     data.value = it
                 }
             }
         }
     }
-
 }

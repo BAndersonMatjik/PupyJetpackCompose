@@ -39,7 +39,7 @@ import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import com.example.androiddevchallenge.ui.utils.loadPicture
 
 @Composable
-fun DetailView(id: String,viewModel: DetailViewModel = hiltNavGraphViewModel()) {
+fun DetailView(id: String, viewModel: DetailViewModel = hiltNavGraphViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -80,6 +80,5 @@ fun DetailView(id: String,viewModel: DetailViewModel = hiltNavGraphViewModel()) 
             Text(text = "Dogs Height     ${data?.puppy_height}", style = MaterialTheme.typography.body1)
             Text(text = "Dogs Weight     ${data?.puppy_weight}", style = MaterialTheme.typography.body1)
         }
-
     }
 }

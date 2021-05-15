@@ -28,19 +28,18 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val puppyDao: PuppyDao) : ViewModel(){
+class DetailViewModel @Inject constructor(private val puppyDao: PuppyDao) : ViewModel() {
 
     var data: MutableLiveData<PuppyEntity> = MutableLiveData<PuppyEntity>()
 
-    fun getPuppy(id:String) {
+    fun getPuppy(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             puppyDao.getPuppys().let {
                 Log.d("HomeViewModel", "onCreate:  ${it.size} : $it")
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     data.value = it.filter { it.id_puppy == id.toInt() }.first()
                 }
             }
         }
     }
-
 }

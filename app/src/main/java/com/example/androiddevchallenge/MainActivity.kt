@@ -103,7 +103,7 @@ fun AppNavigator() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "home") {
-        navigation(startDestination = "homeView",route = "home"){
+        navigation(startDestination = "homeView", route = "home") {
             composable("homeView") {
                 HomeView(navController)
             }
@@ -116,7 +116,7 @@ fun AppNavigator() {
                 )
             ) { backstack ->
                 backstack.arguments?.getString("id_puppy").let {
-                DetailView( id = it!!)
+                    DetailView(id = it!!)
                     Log.d("Detail", "AppNavigator: GO Detail")
                 }
             }

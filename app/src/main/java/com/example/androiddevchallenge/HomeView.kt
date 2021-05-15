@@ -24,7 +24,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -36,13 +35,12 @@ import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
-import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.item.DogItem
 
 @Composable
-fun HomeView(navigation:NavController,viewModel: HomeViewModel = hiltNavGraphViewModel()) {
-    fun navigate(puppy_id:String){
-        navigation.navigate("detailView/${puppy_id}")
+fun HomeView(navigation: NavController, viewModel: HomeViewModel = hiltNavGraphViewModel()) {
+    fun navigate(puppy_id: String) {
+        navigation.navigate("detailView/$puppy_id")
     }
 
     Surface(color = MaterialTheme.colors.background) {
@@ -78,6 +76,6 @@ fun HomeView(navigation:NavController,viewModel: HomeViewModel = hiltNavGraphVie
 
 @Preview
 @Composable
-fun HomePreview(){
+fun HomePreview() {
 //    HomeView()
 }
