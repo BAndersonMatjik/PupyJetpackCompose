@@ -15,6 +15,7 @@
  */
 package com.example.androiddevchallenge
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +37,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.core.model.PuppyEntity
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.utils.loadPicture
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: HomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +71,7 @@ fun DarkPreview() {
     }
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Preview("Detail Theme", widthDp = 360, heightDp = 640, showBackground = true)
 @Composable
 fun DetailPreview() {

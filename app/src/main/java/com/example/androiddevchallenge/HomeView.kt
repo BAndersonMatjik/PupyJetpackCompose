@@ -45,7 +45,6 @@ fun HomeView(nav: NavHostController, viewModel: HomeViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Dogs List", fontSize = 25.sp)
-
             val data: List<PuppyEntity> = viewModel.data.value
             if (data.size> 0) {
                 LazyColumn(

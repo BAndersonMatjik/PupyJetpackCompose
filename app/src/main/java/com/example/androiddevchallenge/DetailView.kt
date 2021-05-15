@@ -37,7 +37,6 @@ import com.example.androiddevchallenge.ui.utils.loadPicture
 
 @Composable
 fun DetailView(viewModel: HomeViewModel, id: String) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()

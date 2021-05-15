@@ -17,11 +17,12 @@ package com.example.androiddevchallenge
 
 import android.app.Application
 import com.example.androiddevchallenge.core.local.AppDatabase
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AppDatabase.getInstance(this.applicationContext)
     }
 }

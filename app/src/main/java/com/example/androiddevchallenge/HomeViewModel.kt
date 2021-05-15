@@ -20,16 +20,23 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.androiddevchallenge.core.local.AppDatabase
+import com.example.androiddevchallenge.core.local.repo.PuppyDao
 import com.example.androiddevchallenge.core.model.PuppyEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class HomeViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(puppyDao: PuppyDao) : ViewModel(), CoroutineScope {
 
     private val job = Job()
 
@@ -39,8 +46,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), C
     var data: MutableState<List<PuppyEntity>> = mutableStateOf(listOf())
 
     init {
-        GlobalScope.launch(Dispatchers.IO) {
-            AppDatabase.getInstance(application).puppyDao.getPuppys().apply {
+        viewModelScope.launch(Dispatchers.IO) {
+            puppyDao.getPuppys().apply {
                 Log.d("HomeViewModel", "onCreate:  ${this.size} : $this")
                 data.value = this
             }
